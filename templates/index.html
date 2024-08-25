@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film Önerici</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .jumbotron {
+            background-color: #343a40;
+            color: white;
+            padding: 2rem;
+            border-radius: 0.3rem;
+        }
+        .form-control, .btn {
+            border-radius: 0.3rem;
+        }
+        .error-message {
+            color: #dc3545;
+        }
+        .movie-list {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron text-center">
+            <h1 class="display-4">Film Önerici</h1>
+            <p class="lead">En sevdiğiniz filmlere benzer film önerileri alın.</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form method="POST" class="form-inline justify-content-center">
+                    <div class="form-group mb-2">
+                        <input type="text" name="movie_title" class="form-control mr-2" placeholder="Film adı girin" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Öner</button>
+                </form>
+
+                {% if error_message %}
+                <div class="alert alert-danger error-message" role="alert">
+                    {{ error_message }}
+                </div>
+                {% endif %}
+
+                {% if movie_title and similar_movies %}
+                <div class="movie-list">
+                    <h2>"{{ movie_title }}" filmine benzer filmler:</h2>
+                    <ul class="list-group">
+                        {% for movie in similar_movies %}
+                        <li class="list-group-item">
+                            {{ movie.title }} 
+                            <span class="badge badge-info">Benzerlik Skoru: {{ movie.score|round(2) }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
